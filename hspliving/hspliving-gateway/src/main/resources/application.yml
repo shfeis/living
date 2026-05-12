@@ -1,0 +1,41 @@
+server:
+  port: 5050 #指定gateway的端口
+spring:
+  application:
+    name: hspliving-gateway #设置集群别名
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848 #指定nacosServer的url
+    # 配置gateway网关
+    gateway:
+      routes:  #配置路由,可以有多个路由
+        # 路由1，请求转发的url=uri+path(满足断言条件后，到nacos服务注册中心获取与hspliving-commodity对应的后端服务模块的ip+端口，再访问：http://ip:端口/Path)
+        - id: hspliving_commodity_route
+          uri: lb://hspliving-commodity  #lb:表示该集群允许进行负载均衡
+          predicates: #断言(当请求地址栏中包含Path就允许访问后端程序，如：http://localhost:5050/api/commodity/...)
+            - Path=/api/commodity/**
+          filters: #过滤器
+            - RewritePath=/api/(?<segment>.*), /$\{segment} #把Path=/api/commodity/**改写成Path=/commodity/**
+
+        # 路由2，请求转发的url=uri+path(满足断言条件后，到nacos服务注册中心获取与hspliving-service对应的后端服务模块的ip+端口，再访问：http://ip:端口/Path)
+        - id: hspliving_service_route
+          uri: lb://hspliving-service #lb:表示该集群允许进行负载均衡
+          predicates: #断言(当请求地址栏中包含Path就允许访问后端程序，如：http://localhost:5050/api/service/...)
+            - Path=/api/service/**
+          filters: #过滤器
+            - RewritePath=/api/service/(?<segment>.*), /$\{segment} #把Path=/api/service/**改写成Path=/**
+
+        # 路由3，请求转发的url=uri+path(满足断言条件后，到nacos服务注册中心获取与hspliving-fast对应的后端服务模块的ip+端口，再访问：http://ip:端口/Path)
+        - id: hspliving_renren_fast_route
+          uri: lb://hspliving-fast  #lb:表示该集群允许进行负载均衡
+          predicates: #断言(当请求地址栏中包含Path就允许访问后端程序，如：http://localhost:5050/api/....)
+            - Path=/api/**
+          filters: #过滤器
+            - RewritePath=/api/(?<segment>.*), /renren-fast/$\{segment} #把Path=/api/**改写成Path=/renren-fast/**
+
+        # 路由4，请求转发的url=uri(满足断言条件后，到nacos服务注册中心获取与hspliving-commodity对应的后端服务模块的ip+端口，再访问：http://ip:端口/api/commodity/...)
+        - id: hspliving_host_route
+          uri: lb://hspliving-commodity  #lb:表示该集群允许进行负载均衡
+          predicates: #断言(当请求地址栏中包含Host就允许访问后端程序，如：http://www.hspliving.com/api/commodity/...)
+            - Host=**.hspliving.com

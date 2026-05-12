@@ -1,0 +1,32 @@
+server:
+  port: 9090 #设置模块端口
+spring:
+  datasource:
+    username: root
+    password: hsp
+    url: jdbc:mysql://localhost:3306/hspliving_commodity?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    alicloud:
+      oss:  #阿里云oss配置
+        endpoint: 1
+      access-key: 1
+      secret-key: 1
+    nacos: #Nacos配置
+      discovery:
+        server-addr: 127.0.0.1:8848 #指定NacosServer的url
+  application:
+    name: hspliving-commodity #设置集群别名
+  thymeleaf:
+    cache: false #关闭thymeleaf的缓存，当前端页面发生变化时就可以看到效果
+# 配置mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml # 指定*mapper.xml在哪个类路径下
+  global-config:
+    db-config:
+      id-type: auto #主键自增
+      logic-delete-value: 0 #逻辑已删除为0
+      logic-not-delete-value: 1 #逻辑未删除为1
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #允许控制面板输出要执行的SQL语句
+

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--导入springboot父工程-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.8.RELEASE</version>
+        <!--查找父工程的顺序是从本地到远程，因为hspliving聚合了该模块，所以本地父工程是hspliving，该设置会绕过本地父工程-->
+        <relativePath/>
+    </parent>
+
+    <groupId>com.hspedu.hspliving</groupId>
+    <artifactId>hspliving-commodity</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>hspliving-commodity</name>
+    <description>顺平-(家居生活)-商品模块</description>
+
+    <dependencies>
+        <!--引入公共模块hspliving-common-->
+        <dependency>
+            <groupId>com.hspedu.hspliving</groupId>
+            <artifactId>hspliving-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--引入springCloudAlibaba-Oss依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alicloud-oss</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
+        <!--引入Thymeleaf依赖，可以将后端数据显示在前端页面，动态渲染HTML-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>2020.0.5</spring-cloud.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <!--导入springboot父工程-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.8.RELEASE</version>
+        <!--查找父工程的顺序是从本地到远程，因为hspliving聚合了该模块，所以本地父工程是hspliving，该设置会绕过本地父工程-->
+        <relativePath/>
+    </parent>
+
+    <groupId>com.hspedu.hspliving</groupId>
+    <artifactId>hspliving-service</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>hspliving-service</name>
+    <description>顺平-(家居生活)-第三方服务</description>
+
+    <dependencies>
+        <!--引入公共模块hspliving-common-->
+        <dependency>
+            <groupId>com.hspedu.hspliving</groupId>
+            <artifactId>hspliving-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <!--排除指定的依赖-->
+            <exclusions>
+                <exclusion>
+                    <groupId>com.baomidou</groupId>
+                    <artifactId>mybatis-plus-boot-starter</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--引入nacos服务配置中心，属于spring-cloud-alibaba的依赖，自动锁定版本为2.1.0.RELEASE-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+        <!--引入web场景启动器-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--开启单元测试，只对test目录生效-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--引入oss阿里云存储，版本会自动指定为2.1.0.RELEASE-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alicloud-oss</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>2.1.0.RELEASE</version>
+                <!--该模块的spring-cloud-alibaba依赖版本会自动指定为2.1.0.RELEASE-->
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-cloud.version>2020.0.5</spring-cloud.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

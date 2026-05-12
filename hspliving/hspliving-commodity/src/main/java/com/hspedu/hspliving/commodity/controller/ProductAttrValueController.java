@@ -1,0 +1,84 @@
+package com.hspedu.hspliving.commodity.controller;
+
+import java.util.Arrays;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hspedu.hspliving.commodity.entity.ProductAttrValueEntity;
+import com.hspedu.hspliving.commodity.service.ProductAttrValueService;
+import com.hspedu.common.utils.PageUtils;
+import com.hspedu.common.utils.R;
+
+
+
+/**
+ * spu基本属性值
+ *
+ * @author hsp
+ * @email hsp@gmail.com
+ * @date 2026-04-03 14:31:25
+ */
+@RestController
+@RequestMapping("commodity/productattrvalue")
+public class ProductAttrValueController {
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    /**
+     * 列表
+     */
+    @RequestMapping("/list")
+    public R list(@RequestParam Map<String, Object> params){
+        PageUtils page = productAttrValueService.queryPage(params);
+
+        return R.ok().put("page", page);
+    }
+
+
+    /**
+     * 信息
+     */
+    @RequestMapping("/info/{id}")
+    public R info(@PathVariable("id") Long id){
+		ProductAttrValueEntity productAttrValue = productAttrValueService.getById(id);
+
+        return R.ok().put("productAttrValue", productAttrValue);
+    }
+
+    /**
+     * 保存
+     */
+    @RequestMapping("/save")
+    public R save(@RequestBody ProductAttrValueEntity productAttrValue){
+		productAttrValueService.save(productAttrValue);
+
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     */
+    @RequestMapping("/update")
+    public R update(@RequestBody ProductAttrValueEntity productAttrValue){
+		productAttrValueService.updateById(productAttrValue);
+
+        return R.ok();
+    }
+
+    /**
+     * 删除
+     */
+    @RequestMapping("/delete")
+    public R delete(@RequestBody Long[] ids){
+		productAttrValueService.removeByIds(Arrays.asList(ids));
+
+        return R.ok();
+    }
+
+}
